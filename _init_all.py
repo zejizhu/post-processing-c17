@@ -37,6 +37,8 @@ class config:
         # # 0 just one positive_gate
         # # 1 positive_gate loop test
         self.gate_loop_test_mode = 1   ########################## loop mode
+        self.gen_slide_info_xml_mode = 1  ##create the positive slide xml file
+        self.save_np_score_mode = 1     ##save the raw score as the numpy file
         self.gate_start = 0.7
         self.gate_end = 1.0
         self.gate_step = 0.01
@@ -68,7 +70,7 @@ class config:
 
 class path_info:
     def __init__(self):
-        self.input = 'csv_outs_normalize_HSD_c16_B2_11W'
+        self.input = 'csv_outs_tf_hsd2_no_distort_11w'
         self.config = 'config'
         self.raw_score = 'raw_score'
         self.heatmap = 'heatmap'

@@ -4,14 +4,14 @@ import auc
 
 dir_c16_outs = "C16_auc_outs"
 
-DIR_INPUT = "input"
+DIR_INPUT = "csv_outs_tf_hsd2_no_distort_11w"
 DIR_CONFIG = "config"
 FILE_C16_GT_CSV = "GT_C16.csv"
 MEAN_COUNT = 1
 TEST_SET_CONUT = 130
 
 def get_score_mean(file_path):
-    score_data = np.loadtxt(file_path, delimiter=',', usecols=(2,))
+    score_data = np.loadtxt(file_path, delimiter=',', usecols=(3,))
     score_data.sort()
     max_score = score_data[MEAN_COUNT * (-1):]
     mean_score = sum(max_score) / (MEAN_COUNT * 1.0)
@@ -44,7 +44,7 @@ def get_slide_score(slide_id):
     if os.path.exists(file_path):
         return get_score(file_path)
     else:
-        print "The file %s is not find!" %(file_path)
+        print ("The file %s is not find!" %(file_path))
     return 0
 
 def get_testset_score():
@@ -94,11 +94,11 @@ def evaluate_c16_main():
     #print eva_score.shape
 
     auc_score = auc.auc(gt_score,eva_score,fig_path)
-    print "Meat count:%d C16 AUC is :%0.4lf" %(MEAN_COUNT,auc_score)
+    print ("Meat count:%d C16 AUC is :%0.4lf" %(MEAN_COUNT,auc_score))
 
 def evaluate_c16_init():
     if os.path.exists(dir_c16_outs):
-        print "%s is exists!" %(dir_c16_outs)
+        print ("%s is exists!" %(dir_c16_outs))
     else:
         os.makedirs(dir_c16_outs)
 

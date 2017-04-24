@@ -44,7 +44,7 @@ def draw_heatmap_img(slide_score,patient_id, node_id, step):
         draw.draw_heatmap(slide_score, cfg.positive_gate_map2, dat_path)
         '''
     else:
-        print "skip output heatmap"
+        print ("skip output heatmap")
 
 
 
@@ -57,9 +57,9 @@ def loop_patient(bar_img,gate):
     init.set_positive_gate(gate)
     ## patients loop
     for patient_id in range(slide_info.start_id,slide_info.end_id):
-        print "###################  Patient:%d  Gate:%1.4lf ###################" %(patient_id,gate)
+        print ("###################  Patient:%d  Gate:%1.4lf ###################" %(patient_id,gate))
         for node_id in range(slide_info.node_num):
-            print ">>>Patient:%d Node:%d"%(patient_id,node_id)
+            print (">>>Patient:%d Node:%d"%(patient_id,node_id))
             #get score
             slide_score = slide_run.gen_slide_score(patient_id,node_id)
 
@@ -73,7 +73,8 @@ def loop_patient(bar_img,gate):
             positive_flag,mask_dat = positive_check.positive_find(slide_score,gate)
             if positive_flag:
                 mask_dat =  positive_check.transfer_find(slide_score,mask_dat)
-                positive_xml.gen_xml(mask_dat,patient_id,node_id,gate)
+                if cfg.gen_slide_info_xml_mode == 1:
+                    positive_xml.gen_xml(mask_dat,patient_id,node_id,gate)
                 print("patient:"+str(patient_id)+" node:"+str(node_id)+" is Positive!")
                 #mask_dat = positive_check.slide_mask(slide_score,cfg.positive_gate)
                 #metastasis_check.get_positive_count(mask_dat)
@@ -112,7 +113,6 @@ def patient_test_gate_loop():
     patient_info = ["","","","",""]
     gate_loop_cnt = 0
     for gate_num in range(int((cfg.gate_end-cfg.gate_start)/cfg.gate_step)):
-
         ## patients loop
         gate_tmp = cfg.gate_start + gate_num*cfg.gate_step
         gate_loop_cnt += 1

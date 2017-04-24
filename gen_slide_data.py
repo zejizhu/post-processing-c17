@@ -179,13 +179,13 @@ def gen_slide_score_form_csv(patient_id,node_id):
             #max_y = int(file_name[25:29])
 
     else:
-        print "get the csv file fail!"
+        print ("get the csv file fail!")
         file_name = "xxx"
 
     dat_path = os.path.join(path_info.input,file_name)
     if os.path.exists(dat_path):
-        print "Read csv [patient:%d node:%d] %s "%(patient_id,node_id,dat_path)
-        score_data = np.loadtxt(dat_path,delimiter=',',usecols=(0,1,2))
+        print ("Read csv [patient:%d node:%d] %s "%(patient_id,node_id,dat_path))
+        score_data = np.loadtxt(dat_path,delimiter=',',usecols=(1,2,3))
         # get the max size from the input csv
         if (max_x + max_y) == 0:
             max_x = 1 + int(max(score_data.T[0])/cfg.step)
@@ -217,13 +217,14 @@ def gen_slide_score_form_csv(patient_id,node_id):
         x_pst = int(score_data[num_id][0]/step)
         y_pst = int(score_data[num_id][1]/step)
         if y_pst >= y_cnt:
-            print  "y:max:%d real:%d "%(y_cnt,y_pst)
+            print  ("y:max:%d real:%d "%(y_cnt,y_pst))
         if x_pst >= x_cnt:
-            print  "x:max:%d real:%d "%(x_cnt,x_pst)
+            print  ("x:max:%d real:%d "%(x_cnt,x_pst))
         slide_score[y_pst][x_pst] =score_data[num_id][2]
-    file_name = gname.gen_section_score_npy_name(patient_id,node_id,step)
-    file_path = os.path.join(path_info.raw_score,file_name)
-    np.save(file_path,slide_score)
+    if cfg.save_np_score_mode == 1:
+        file_name = gname.gen_section_score_npy_name(patient_id,node_id,step)
+        file_path = os.path.join(path_info.raw_score,file_name)
+        np.save(file_path,slide_score)
     return  slide_score
 
 def gen_slide_score_from_np_matrix(patient_id,node_id):
